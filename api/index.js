@@ -1,4 +1,3 @@
-// api/index.js  —  GADAAY Backend  |  L2 GLSI 2026
 require('dotenv').config();
 const express  = require('express');
 const mysql    = require('mysql2/promise');
@@ -12,13 +11,22 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// ── Connexion MySQL ──────────────────────────────────────────
-const pool = mysql.createPool({
-  uri      : process.env.MYSQL_PUBLIC_URL,
-  ssl      : { rejectUnauthorized: false },
-  waitForConnections: true,
-  connectionLimit   : 10,
-});
+console.log('MYSQL_PUBLIC_URL:', process.env.MYSQL_PUBLIC_URL ? 'définie' : 'MANQUANTE');
+
+const dbUrl = process.env.MYSQL_PUBLIC_URL;
+
+let pool;
+if (dbUrl) {
+  pool = mysql.createPool(dbUrl + '?ssl={"rejectUnauthorized":false}');
+} else {
+  pool = mysql.createPool({
+    host     : process.env.DB_HOST     || 'localhost',
+    user     : process.env.DB_USER     || 'root',
+    password : process.env.DB_PASSWORD || '',
+    database : process.env.DB_NAME     || 'agence_voyage',
+    port     : parseInt(process.env.DB_PORT) || 3306,
+  });
+}
 
 // ── Helper ────────────────────────────────────────────────────
 async function q(sql, params = []) {
