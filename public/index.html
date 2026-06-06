@@ -31,7 +31,7 @@ nav.scrolled .nav-links span{color:var(--text);}
 .btn-signup:hover{background:var(--orange-dark);}
 
 /* ── HERO ── */
-.hero{height:100vh;min-height:600px;position:relative;overflow:hidden;display:flex;align-items:center;}
+.hero{height:100vh;min-height:600px;position:relative;overflow:visible;display:flex;align-items:center;}
 .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80') center/cover no-repeat;opacity:.55;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,30,70,.78) 0%,rgba(10,30,70,.25) 100%);}
 .hero-content{position:relative;z-index:2;padding:0 60px;max-width:700px;}
@@ -41,7 +41,7 @@ nav.scrolled .nav-links span{color:var(--text);}
 .btn-book:hover{background:var(--orange-dark);transform:translateY(-2px);}
 
 /* Search bar */
-.search-bar-hero{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);width:90%;max-width:860px;background:#fff;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.18);display:flex;align-items:center;padding:12px 16px;gap:8px;z-index:10;}
+.search-bar-hero{position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);width:90%;max-width:860px;background:#fff;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.18);display:flex;align-items:center;padding:12px 16px;gap:8px;z-index:10;}
 .sf{flex:1;display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--border);transition:.2s;}
 .sf:focus-within{border-color:var(--orange);}
 .sf svg{width:18px;height:18px;color:var(--muted);flex-shrink:0;}
@@ -243,6 +243,80 @@ tr:hover td{background:#fafbff;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
 ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+
+/* ── DEST SECTION (après hero, padding-top pour dégager la search bar) ── */
+.dest-section{padding:100px 60px 60px;}
+
+/* ── NAV TOGGLE MOBILE ── */
+.nav-toggle{display:none;background:none;border:none;font-size:24px;cursor:pointer;color:#fff;line-height:1;padding:2px 6px;}
+nav.scrolled .nav-toggle{color:var(--text);}
+
+/* ── RESPONSIVE TABLETTE ── */
+@media(max-width:1024px){
+  nav{padding:18px 32px;}
+  .hero-content{padding:0 32px;max-width:620px;}
+  .hero-content h1{font-size:42px;}
+  section{padding:60px 32px;}
+  .about-section{padding:60px 32px;}
+  .newsletter{padding:50px 32px;}
+  footer{padding:40px 32px 24px;}
+  .dest-section{padding:100px 32px 60px;}
+  .dest-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:24px;}
+  .sgrid{grid-template-columns:repeat(2,1fr);}
+  .cgrid{grid-template-columns:repeat(2,1fr);}
+  .app-wrap{padding:90px 32px 40px;}
+}
+
+/* ── RESPONSIVE MOBILE ── */
+@media(max-width:768px){
+  nav{padding:14px 20px;}
+  .nav-toggle{display:block;}
+  .nav-links{
+    display:none;flex-direction:column;gap:0;
+    position:fixed;top:56px;left:0;right:0;
+    background:#fff;padding:8px 20px 20px;
+    box-shadow:0 8px 24px rgba(0,0,0,.14);z-index:998;
+  }
+  .nav-links.open{display:flex;}
+  .nav-links span{color:var(--text)!important;padding:12px 0;font-size:15px;border-bottom:1px solid var(--border);}
+  .nav-links span:hover,.nav-links span.active{color:var(--orange)!important;}
+  .nav-links .btn-signup{margin-top:12px;align-self:flex-start;}
+  .hero{flex-direction:column;justify-content:flex-end;padding:0 0 20px;overflow:hidden;}
+  .hero-content{padding:80px 20px 20px;max-width:100%;text-align:left;}
+  .hero-content h1{font-size:28px;}
+  .hero-content p{font-size:14px;margin-bottom:24px;}
+  .btn-book{font-size:14px;padding:12px 28px;}
+  .search-bar-hero{position:relative;bottom:auto;left:auto;transform:none;width:calc(100% - 40px);margin:16px auto 0;flex-wrap:wrap;}
+  .sdiv{display:none;}
+  .sf{min-width:calc(50% - 12px);flex:unset;}
+  .btn-go{width:100%;border-radius:var(--radius-sm);height:46px;}
+  .dest-section{padding:40px 20px 50px;}
+  section{padding:50px 20px;}
+  .about-section{padding:50px 20px;}
+  .newsletter{padding:40px 20px;}
+  footer{padding:36px 20px 20px;}
+  .dest-grid{grid-template-columns:1fr 1fr;}
+  .reco-grid,.cgrid{grid-template-columns:1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .about-img{height:220px;}
+  .footer-grid{grid-template-columns:1fr;gap:16px;}
+  .sgrid{grid-template-columns:repeat(2,1fr);}
+  .app-wrap{padding:90px 16px 32px;}
+  .fgrid{grid-template-columns:1fr;}
+  .ff{grid-column:1;}
+  .stitle{font-size:24px;}
+  .shead{flex-direction:column;align-items:flex-start;}
+  .page-hdr{flex-direction:column;align-items:flex-start;}
+  .modal{border-radius:14px 14px 0 0;position:fixed;bottom:0;left:0;right:0;width:100%;max-height:88vh;}
+  .modal-overlay{align-items:flex-end;padding:0;}
+}
+@media(max-width:480px){
+  .hero-content h1{font-size:22px;}
+  .sf{min-width:100%;}
+  .dest-grid{grid-template-columns:1fr;}
+  .about-text h2{font-size:26px;}
+}
 </style>
 </head>
 <body>
@@ -250,6 +324,7 @@ tr:hover td{background:#fafbff;}
 <!-- ══ NAVBAR ══ -->
 <nav id="navbar">
   <div class="nav-logo" onclick="showPage('home')">GADAAY</div>
+  <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">&#9776;</button>
   <div class="nav-links">
     <span class="active" onclick="showPage('home')">Circuits</span>
     <span onclick="showPage('circuits-page')">Catalogue</span>
@@ -291,7 +366,7 @@ tr:hover td{background:#fafbff;}
 </section>
 
 <!-- Destinations -->
-<section style="padding:100px 60px 60px;">
+<section class="dest-section">
   <div class="shead">
     <div>
       <div class="stag">Nos Destinations</div>
@@ -549,23 +624,38 @@ const API = '/api'; // en prod, vercel redirige /api → api/index.js
 
 // ── HELPERS ─────────────────────────────────────────────────
 async function GET(url) {
-  const r = await fetch(API + url);
-  return r.json();
+  try {
+    const r = await fetch(API + url);
+    if (!r.ok) return { ok: false, error: `Erreur serveur ${r.status}` };
+    return r.json();
+  } catch(e) { return { ok: false, error: 'Serveur inaccessible' }; }
 }
 async function POST(url, body) {
-  const r = await fetch(API + url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  return r.json();
+  try {
+    const r = await fetch(API + url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      return { ok: false, error: err.error || `Erreur ${r.status}` };
+    }
+    return r.json();
+  } catch(e) { return { ok: false, error: 'Serveur inaccessible' }; }
 }
 async function PUT(url) {
-  const r = await fetch(API + url, { method: 'PUT' });
-  return r.json();
+  try {
+    const r = await fetch(API + url, { method: 'PUT' });
+    if (!r.ok) {
+      const err = await r.json().catch(() => ({}));
+      return { ok: false, error: err.error || `Erreur ${r.status}` };
+    }
+    return r.json();
+  } catch(e) { return { ok: false, error: 'Serveur inaccessible' }; }
 }
 
-function fmt(n) { return Number(n).toLocaleString('fr-FR'); }
+function fmt(n) { const v = Number(n); return isNaN(v) ? '0' : v.toLocaleString('fr-FR'); }
 
 function toast(msg, type = 'success') {
   const t = document.getElementById('toast');
@@ -584,6 +674,13 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
+  // Sync lien actif navbar
+  const navIdx = { home:0, 'circuits-page':1, 'reservations-page':2, 'clients-page':3, 'dashboard-page':4 };
+  document.querySelectorAll('.nav-links span').forEach((s,i) =>
+    s.classList.toggle('active', i === navIdx[id])
+  );
+  // Fermer le menu mobile
+  document.querySelector('.nav-links').classList.remove('open');
   const handlers = {
     'circuits-page': loadCircuitsPage,
     'reservations-page': loadReservationsPage,
@@ -592,6 +689,10 @@ function showPage(id) {
     'home': loadHome,
   };
   if (handlers[id]) handlers[id]();
+}
+
+function toggleNav() {
+  document.querySelector('.nav-links').classList.toggle('open');
 }
 
 window.addEventListener('scroll', () => {
@@ -609,7 +710,12 @@ document.querySelectorAll('.modal-overlay').forEach(o =>
 async function loadHome() {
   // Destinations (4 premiers circuits)
   const res = await GET('/circuits');
-  if (!res.ok) return;
+  if (!res.ok) {
+    const msg = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;">${res.error || 'Impossible de charger les données.'}</div>`;
+    document.getElementById('dest-grid').innerHTML = msg;
+    document.getElementById('reco-grid').innerHTML = msg;
+    return;
+  }
   const circuits = res.data.slice(0, 4);
   const tags = ['Solo Tour', 'Couple Tour', 'Family Tour', 'Groupe Tour'];
   document.getElementById('dest-grid').innerHTML = circuits.map((c, i) => `
@@ -648,8 +754,28 @@ async function loadHome() {
 // ── CIRCUITS PAGE ────────────────────────────────────────────
 async function loadCircuitsPage() {
   const res = await GET('/circuits');
-  if (!res.ok) return;
-  document.getElementById('cgrid').innerHTML = res.data.map(c => {
+  if (!res.ok) {
+    document.getElementById('cgrid').innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;">${res.error || 'Impossible de charger les circuits.'}</div>`;
+    return;
+  }
+  let data = res.data;
+  // Appliquer les filtres de la barre de recherche hero
+  const f = window._searchFilters;
+  if (f) {
+    if (f.dest) data = data.filter(c =>
+      (c.libelle||'').toLowerCase().includes(f.dest) ||
+      (c.pays||'').toLowerCase().includes(f.dest)
+    );
+    if (f.pers > 0) data = data.filter(c =>
+      (c.nb_places_restantes ?? c.nb_places_max) >= f.pers
+    );
+    window._searchFilters = null;
+  }
+  if (!data.length) {
+    document.getElementById('cgrid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:40px;">Aucun circuit ne correspond à votre recherche.</div>';
+    return;
+  }
+  document.getElementById('cgrid').innerHTML = data.map(c => {
     const rest = c.nb_places_restantes ?? c.nb_places_max;
     const fill = Math.round((c.nb_places_max - rest) / c.nb_places_max * 100);
     const full = rest === 0 || c.statut === 'complet';
@@ -675,7 +801,10 @@ async function loadCircuitsPage() {
 // ── RESERVATIONS PAGE ────────────────────────────────────────
 async function loadReservationsPage() {
   const res = await GET('/reservations');
-  if (!res.ok) return;
+  if (!res.ok) {
+    document.getElementById('resa-tbody').innerHTML = `<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--muted);">${res.error || 'Erreur de chargement.'}</td></tr>`;
+    return;
+  }
   const data = res.data;
 
   const total   = data.length;
@@ -726,7 +855,10 @@ async function loadReservationsPage() {
 // ── CLIENTS PAGE ─────────────────────────────────────────────
 async function loadClientsPage() {
   const res = await GET('/clients');
-  if (!res.ok) return;
+  if (!res.ok) {
+    document.getElementById('cli-tbody').innerHTML = `<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--muted);">${res.error || 'Erreur de chargement.'}</td></tr>`;
+    return;
+  }
   document.getElementById('cli-tbody').innerHTML = res.data.map(c => `
     <tr>
       <td><div style="display:flex;align-items:center;gap:10px;">
@@ -744,19 +876,19 @@ async function loadClientsPage() {
 // ── DASHBOARD ────────────────────────────────────────────────
 async function loadDashboard() {
   const res = await GET('/dashboard');
-  if (!res.ok) return;
+  if (!res.ok) { toast(res.error || 'Erreur de chargement du tableau de bord', 'error'); return; }
   const d = res.data;
   document.getElementById('d-departs').textContent = d.departs_mois;
   document.getElementById('d-impaye').textContent  = d.soldes_impayes;
   document.getElementById('d-ca').textContent      = fmt(d.ca_mois);
   document.getElementById('d-taux').textContent    = d.taux_remplissage + '%';
 
-  document.getElementById('dash-departs').innerHTML = (d.prochains_departs || []).map(d => `
+  document.getElementById('dash-departs').innerHTML = (d.prochains_departs || []).map(dep => `
     <tr>
-      <td><strong>${d.libelle}</strong></td>
-      <td>${d.date_depart}</td>
-      <td>${d.nb_places_restantes}</td>
-      <td><span class="badge ${d.statut === 'ouvert' ? 'b-green' : d.statut === 'complet' ? 'b-red' : 'b-gray'}">${d.statut}</span></td>
+      <td><strong>${dep.libelle}</strong></td>
+      <td>${dep.date_depart}</td>
+      <td>${dep.nb_places_restantes}</td>
+      <td><span class="badge ${dep.statut === 'ouvert' ? 'b-green' : dep.statut === 'complet' ? 'b-red' : 'b-gray'}">${dep.statut}</span></td>
     </tr>`).join('');
 }
 
@@ -791,13 +923,10 @@ async function populateSelects() {
     gs.add(o);
   });
 
-  // Destinations (pour circuit modal)
-  const dest = await GET('/departs'); // use circuits for destinations
+  // Destinations (pour circuit modal) — liste fixe
   const ccs = document.getElementById('cc-dest');
   ccs.innerHTML = '';
-  const pays = ['Sénégal','Mali','Cap-Vert','Bénin','Ghana'];
-  const ids  = [1,2,3,4,5];
-  pays.forEach((p,i) => { const o = new Option(p, ids[i]); ccs.add(o); });
+  ['Sénégal','Mali','Cap-Vert','Bénin','Ghana'].forEach((p,i) => ccs.add(new Option(p, i+1)));
 }
 
 // ── ACOMPTE CALC ─────────────────────────────────────────────
@@ -881,7 +1010,7 @@ async function addCircuit() {
   const date_depart  = document.getElementById('cc-date').value;
   const image_url    = document.getElementById('cc-img').value.trim();
 
-  if (!code || !libelle || !duree || !prix_personne || !nb_places_max)
+  if (!code || !libelle || !id_destination || !duree || !prix_personne || !nb_places_max)
     return showAlert('al-circ', 'Remplissez tous les champs obligatoires.', 'danger');
 
   const res = await POST('/circuits', { code, libelle, id_destination, duree, prix_personne, nb_places_max, date_depart, image_url });
@@ -911,12 +1040,23 @@ async function addClient() {
 
 // ── SEARCH ───────────────────────────────────────────────────
 function doSearch() {
+  const dest = (document.getElementById('s-dest').value || '').trim().toLowerCase();
+  const pers = parseInt(document.getElementById('s-pers').value) || 0;
+  window._searchFilters = { dest, pers };
   showPage('circuits-page');
 }
 
 // ── INIT ─────────────────────────────────────────────────────
 populateSelects();
 loadHome();
+
+// Fermer le menu mobile si clic en dehors
+document.addEventListener('click', e => {
+  const nav = document.getElementById('navbar');
+  if (!nav.contains(e.target)) {
+    document.querySelector('.nav-links').classList.remove('open');
+  }
+});
 </script>
 </body>
 </html>
