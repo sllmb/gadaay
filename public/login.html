@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GADAAY — Connexion</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --orange:#f47c3c;--orange-dark:#e06020;
+  --blue:#1a6fc4;--blue-dark:#0d4a8a;
+  --white:#fff;--text:#1a1e2e;--muted:#6b7280;
+  --border:#e5e9f2;--radius:14px;
+  --danger-bg:#fee2e2;--danger:#b91c1c;
+}
+body{
+  font-family:'Poppins',sans-serif;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  background:url('https://tse2.mm.bing.net/th/id/OIP.PNNGAKLmHJ4xWBAbwlXgewHaEg?rs=1&pid=ImgDetMain&o=7&rm=3') center/cover no-repeat;
+  position:relative;
+}
+body::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(10,30,70,.82) 0%,rgba(10,30,70,.55) 100%);
+}
+.card{
+  position:relative;z-index:1;
+  background:#fff;border-radius:20px;
+  width:420px;max-width:calc(100% - 32px);
+  padding:42px 40px;
+  box-shadow:0 32px 80px rgba(0,0,0,.3);
+}
+.logo{
+  text-align:center;margin-bottom:28px;
+}
+.logo-text{
+  font-size:30px;font-weight:800;color:var(--orange);letter-spacing:2px;
+}
+.logo-sub{font-size:12px;color:var(--muted);margin-top:4px;}
+h2{font-size:20px;font-weight:700;margin-bottom:6px;text-align:center;}
+.desc{font-size:13px;color:var(--muted);text-align:center;margin-bottom:28px;}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:16px;}
+.fg label{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.4px;}
+.fg input{
+  padding:11px 14px;border:1.5px solid var(--border);
+  border-radius:var(--radius);font-family:'Poppins',sans-serif;
+  font-size:14px;background:#fff;transition:.2s;
+}
+.fg input:focus{outline:none;border-color:var(--orange);}
+.btn-login{
+  width:100%;padding:13px;margin-top:8px;
+  background:var(--orange);color:#fff;border:none;
+  border-radius:30px;font-family:'Poppins',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;transition:.2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.btn-login:hover{background:var(--orange-dark);}
+.btn-login:disabled{opacity:.65;cursor:not-allowed;}
+.spinner{
+  display:none;width:18px;height:18px;
+  border:2px solid rgba(255,255,255,.4);border-top-color:#fff;
+  border-radius:50%;animation:spin .6s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err{
+  display:none;background:var(--danger-bg);color:var(--danger);
+  padding:10px 14px;border-radius:var(--radius);font-size:13px;
+  margin-bottom:16px;text-align:center;
+}
+.err.show{display:block;}
+.demo{
+  margin-top:24px;padding:16px;
+  background:#f5f7fa;border-radius:var(--radius);
+  font-size:12px;color:var(--muted);
+}
+.demo strong{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--text);margin-bottom:8px;}
+.demo-row{display:flex;justify-content:space-between;padding:3px 0;}
+.demo-role{font-weight:600;color:var(--blue);}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">
+    <div class="logo-text">GADAAY</div>
+    <div class="logo-sub">Agence de Voyage · L2 GLSI ESP Dakar</div>
+  </div>
+  <h2>Connexion</h2>
+  <p class="desc">Accédez au panneau de gestion</p>
+
+  <div class="err" id="err"></div>
+
+  <form onsubmit="doLogin(event)">
+    <div class="fg">
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" placeholder="admin@gadaay.sn" required autofocus>
+    </div>
+    <div class="fg">
+      <label for="pwd">Mot de passe</label>
+      <input type="password" id="pwd" placeholder="••••••••" required>
+    </div>
+    <button class="btn-login" id="btn" type="submit">
+      <span id="btn-text">Se connecter</span>
+      <div class="spinner" id="spin"></div>
+    </button>
+  </form>
+
+  <div class="demo">
+    <strong>Identifiants de démo</strong>
+    <div class="demo-row"><span class="demo-role">Admin</span><span>admin@gadaay.sn / Admin2026!</span></div>
+    <div class="demo-row"><span class="demo-role">Agent</span><span>agent@gadaay.sn / Agent2026!</span></div>
+    <div class="demo-row"><span class="demo-role">Comptable</span><span>comptable@gadaay.sn / Comptable2026!</span></div>
+  </div>
+</div>
+
+<script>
+async function doLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const pwd   = document.getElementById('pwd').value;
+  const btn   = document.getElementById('btn');
+  const spin  = document.getElementById('spin');
+  const txt   = document.getElementById('btn-text');
+  const err   = document.getElementById('err');
+
+  btn.disabled = true; spin.style.display = 'block'; txt.textContent = 'Connexion…';
+  err.classList.remove('show');
+
+  try {
+    const r = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, mot_de_passe: pwd })
+    });
+    const data = await r.json();
+    if (!data.ok) throw new Error(data.error || 'Identifiants incorrects');
+
+    localStorage.setItem('gadaay_token', data.token);
+    window.location.href = '/';
+  } catch (ex) {
+    err.textContent = ex.message;
+    err.classList.add('show');
+    btn.disabled = false; spin.style.display = 'none'; txt.textContent = 'Se connecter';
+  }
+}
+</script>
+</body>
+</html>

@@ -216,6 +216,17 @@ GRANT INSERT, UPDATE ON agence_voyage.Paiement TO 'comptable'@'%';
 
 FLUSH PRIVILEGES;
 
+-- ── TABLE : Utilisateur ──────────────────────────────────────
+CREATE TABLE IF NOT EXISTS Utilisateur (
+  id            INT AUTO_INCREMENT PRIMARY KEY,
+  nom           VARCHAR(100)  NOT NULL,
+  prenom        VARCHAR(100)  NOT NULL,
+  email         VARCHAR(150)  NOT NULL UNIQUE,
+  mot_de_passe  VARCHAR(255)  NOT NULL,
+  role          ENUM('admin','agent','comptable') NOT NULL,
+  created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ============================================================
 --  DONNÉES DE TEST
 -- ============================================================

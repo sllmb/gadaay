@@ -26,9 +26,19 @@ nav.scrolled .nav-logo{color:var(--text);}
 .nav-links{display:flex;gap:28px;align-items:center;}
 .nav-links span{font-size:14px;font-weight:500;color:rgba(255,255,255,.9);cursor:pointer;transition:.2s;}
 nav.scrolled .nav-links span{color:var(--text);}
-.nav-links span:hover,.nav-links span.active{color:var(--orange);}
+.nav-links span:hover,.nav-links span.active{color:var(--orange);font-weight:600;}
+nav.scrolled .nav-links span.active,nav.scrolled .nav-links span:hover{color:var(--orange);}
 .btn-signup{background:var(--orange);color:#fff!important;padding:10px 24px;border-radius:30px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:.2s;font-family:'Poppins',sans-serif;}
 .btn-signup:hover{background:var(--orange-dark);}
+.nav-user{display:flex;align-items:center;gap:10px;margin-left:8px;}
+.nav-user-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);}
+nav.scrolled .nav-user-name{color:var(--text);}
+.nav-role{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:20px;background:rgba(255,255,255,.2);color:#fff;}
+nav.scrolled .nav-role{background:var(--blue-light);color:var(--blue);}
+.btn-logout{background:none;border:1.5px solid rgba(255,255,255,.5);color:rgba(255,255,255,.9);padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s;}
+.btn-logout:hover{border-color:#fff;color:#fff;}
+nav.scrolled .btn-logout{border-color:var(--border);color:var(--text);}
+nav.scrolled .btn-logout:hover{border-color:var(--orange);color:var(--orange);}
 
 /* ── HERO ── */
 .hero{height:100vh;min-height:600px;position:relative;overflow:visible;display:flex;align-items:center;}
@@ -210,8 +220,11 @@ tr:hover td{background:#fafbff;}
 .ff{grid-column:1/-1;}
 .fg{display:flex;flex-direction:column;gap:5px;}
 .fg label{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.4px;}
-.fg input,.fg select,.fg textarea{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Poppins',sans-serif;font-size:13px;background:#fff;transition:.2s;}
+.fg input,.fg textarea{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Poppins',sans-serif;font-size:13px;background:#fff;color:var(--text);transition:.2s;}
+.fg select{appearance:auto;-webkit-appearance:auto;width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Poppins',sans-serif;font-size:14px;background:#fff;color:var(--text);cursor:pointer;transition:.2s;}
+.fg select option{background:#fff;color:var(--text);padding:8px;font-size:14px;}
 .fg input:focus,.fg select:focus{outline:none;border-color:var(--orange);}
+.fg textarea:focus{outline:none;border-color:var(--orange);}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:30px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.2s;}
@@ -280,8 +293,12 @@ nav.scrolled .nav-toggle{color:var(--text);}
   }
   .nav-links.open{display:flex;}
   .nav-links span{color:var(--text)!important;padding:12px 0;font-size:15px;border-bottom:1px solid var(--border);}
-  .nav-links span:hover,.nav-links span.active{color:var(--orange)!important;}
+  .nav-links span:hover,.nav-links span.active{color:var(--orange)!important;font-weight:600;}
   .nav-links .btn-signup{margin-top:12px;align-self:flex-start;}
+  .nav-user{flex-direction:column;align-items:flex-start;padding:12px 0;gap:6px;border-top:1px solid var(--border);margin-top:4px;}
+  .nav-user-name{color:var(--text)!important;}
+  .nav-role{background:var(--blue-light)!important;color:var(--blue)!important;}
+  .btn-logout{border-color:var(--border)!important;color:var(--text)!important;}
   .hero{flex-direction:column;justify-content:flex-end;padding:0 0 20px;overflow:hidden;}
   .hero-content{padding:80px 20px 20px;max-width:100%;text-align:left;}
   .hero-content h1{font-size:28px;}
@@ -328,10 +345,16 @@ nav.scrolled .nav-toggle{color:var(--text);}
   <div class="nav-links">
     <span class="active" onclick="showPage('home')">Circuits</span>
     <span onclick="showPage('circuits-page')">Catalogue</span>
-    <span onclick="showPage('reservations-page')">Réservations</span>
-    <span onclick="showPage('clients-page')">Clients</span>
-    <span onclick="showPage('dashboard-page')">Tableau de bord</span>
-    <button class="btn-signup" onclick="openModal('modal-resa')">Réserver</button>
+    <span data-roles="admin,agent" onclick="showPage('reservations-page')">Réservations</span>
+    <span data-roles="admin,agent" onclick="showPage('clients-page')">Clients</span>
+    <span data-roles="admin,comptable" onclick="showPage('paiements-page')">Paiements</span>
+    <span data-roles="admin" onclick="showPage('dashboard-page')">Tableau de bord</span>
+    <button class="btn-signup" data-roles="admin,agent" onclick="openModal('modal-resa')">Réserver</button>
+    <div class="nav-user" id="nav-user" style="display:none;">
+      <span class="nav-user-name" id="nav-user-name"></span>
+      <span class="nav-role" id="nav-user-role"></span>
+      <button class="btn-logout" onclick="logout()">Déconnexion</button>
+    </div>
   </div>
 </nav>
 
@@ -504,6 +527,23 @@ nav.scrolled .nav-toggle{color:var(--text);}
 </div>
 </div>
 
+<!-- ══ PAIEMENTS PAGE ══ -->
+<div class="page" id="paiements-page">
+<div class="app-wrap">
+  <div class="page-hdr">
+    <div><h1>Paiements</h1><p>Suivi des paiements et soldes impayés</p></div>
+  </div>
+  <div class="impaye-box" id="paiements-impaye-box" style="display:none;">
+    <div class="impaye-title">⚠ Réservations avec solde impayé</div>
+    <div class="tcard"><table><thead><tr><th>Code</th><th>Client</th><th>Circuit</th><th>Total</th><th>Payé</th><th>Solde restant</th></tr></thead><tbody id="paiements-impaye-tbody"></tbody></table></div>
+  </div>
+  <div class="tcard" style="margin-top:20px;">
+    <div style="padding:16px 20px;font-weight:700;font-size:14px;border-bottom:1px solid var(--border);">Historique des paiements</div>
+    <table><thead><tr><th>Date</th><th>Réservation</th><th>Client</th><th>Circuit</th><th>Montant</th><th>Mode</th></tr></thead><tbody id="paiements-tbody"><tr><td colspan="6" style="text-align:center;padding:30px;"><div class="spinner"></div></td></tr></tbody></table>
+  </div>
+</div>
+</div>
+
 <!-- ══════════ MODALS ══════════ -->
 
 <!-- Réservation -->
@@ -620,12 +660,45 @@ nav.scrolled .nav-toggle{color:var(--text);}
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────
-const API = '/api'; // en prod, vercel redirige /api → api/index.js
+const API = '/api';
+
+// ── AUTH ─────────────────────────────────────────────────────
+function getToken() { return localStorage.getItem('gadaay_token'); }
+function getUser() {
+  const t = getToken();
+  if (!t) return null;
+  try { return JSON.parse(atob(t.split('.')[1])); } catch { return null; }
+}
+function logout() {
+  localStorage.removeItem('gadaay_token');
+  window.location.href = '/login.html';
+}
+function authHeaders() {
+  const t = getToken();
+  return t ? { 'Authorization': 'Bearer ' + t } : {};
+}
+
+function initAuth() {
+  const u = getUser();
+  if (!u) { window.location.href = '/login.html'; return; }
+  document.getElementById('nav-user-name').textContent = u.prenom + ' ' + u.nom;
+  document.getElementById('nav-user-role').textContent = u.role;
+  document.getElementById('nav-user').style.display = 'flex';
+  applyRoleVisibility(u.role);
+}
+
+function applyRoleVisibility(role) {
+  document.querySelectorAll('[data-roles]').forEach(el => {
+    const allowed = el.getAttribute('data-roles').split(',');
+    el.style.display = allowed.includes(role) ? '' : 'none';
+  });
+}
 
 // ── HELPERS ─────────────────────────────────────────────────
 async function GET(url) {
   try {
-    const r = await fetch(API + url);
+    const r = await fetch(API + url, { headers: authHeaders() });
+    if (r.status === 401) { logout(); return { ok: false, error: 'Session expirée' }; }
     if (!r.ok) return { ok: false, error: `Erreur serveur ${r.status}` };
     return r.json();
   } catch(e) { return { ok: false, error: 'Serveur inaccessible' }; }
@@ -634,9 +707,10 @@ async function POST(url, body) {
   try {
     const r = await fetch(API + url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', ...authHeaders() },
       body: JSON.stringify(body)
     });
+    if (r.status === 401) { logout(); return { ok: false, error: 'Session expirée' }; }
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
       return { ok: false, error: err.error || `Erreur ${r.status}` };
@@ -646,7 +720,8 @@ async function POST(url, body) {
 }
 async function PUT(url) {
   try {
-    const r = await fetch(API + url, { method: 'PUT' });
+    const r = await fetch(API + url, { method: 'PUT', headers: authHeaders() });
+    if (r.status === 401) { logout(); return { ok: false, error: 'Session expirée' }; }
     if (!r.ok) {
       const err = await r.json().catch(() => ({}));
       return { ok: false, error: err.error || `Erreur ${r.status}` };
@@ -674,19 +749,19 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
-  // Sync lien actif navbar
-  const navIdx = { home:0, 'circuits-page':1, 'reservations-page':2, 'clients-page':3, 'dashboard-page':4 };
-  document.querySelectorAll('.nav-links span').forEach((s,i) =>
-    s.classList.toggle('active', i === navIdx[id])
+  // Sync lien actif navbar — cible uniquement les spans visibles
+  document.querySelectorAll('.nav-links > span').forEach(s =>
+    s.classList.toggle('active', s.getAttribute('onclick') && s.getAttribute('onclick').includes(`'${id}'`))
   );
   // Fermer le menu mobile
   document.querySelector('.nav-links').classList.remove('open');
   const handlers = {
-    'circuits-page': loadCircuitsPage,
+    'circuits-page'   : loadCircuitsPage,
     'reservations-page': loadReservationsPage,
-    'clients-page': loadClientsPage,
-    'dashboard-page': loadDashboard,
-    'home': loadHome,
+    'clients-page'    : loadClientsPage,
+    'paiements-page'  : loadPaiementsPage,
+    'dashboard-page'  : loadDashboard,
+    'home'            : loadHome,
   };
   if (handlers[id]) handlers[id]();
 }
@@ -916,23 +991,47 @@ async function loadDashboard() {
     </tr>`).join('');
 }
 
+// ── DONNÉES DE SECOURS (si API inaccessible) ─────────────────
+const DEFAULT_CLIENTS = [
+  {id:1, prenom:'Fatou',    nom:'Diallo'},
+  {id:2, prenom:'Moussa',   nom:'Koné'},
+  {id:3, prenom:'Aminata',  nom:'Sow'},
+];
+const DEFAULT_DEPARTS = [
+  {id:1, libelle:'Dakar Classique',  date_depart:'2026-07-05', nb_places_restantes:8,  prix_personne:175000},
+  {id:2, libelle:'Sahel Explorer',   date_depart:'2026-07-10', nb_places_restantes:6,  prix_personne:350000},
+  {id:3, libelle:'Cap-Vert Évasion', date_depart:'2026-07-15', nb_places_restantes:12, prix_personne:290000},
+];
+const DEFAULT_GUIDES = [
+  {id:1, prenom:'Cheikh', nom:'Ndiaye'},
+  {id:2, prenom:'Karim',  nom:'Traoré'},
+];
+
 // ── SELECTS POPULATE ─────────────────────────────────────────
 async function populateSelects() {
+  const cs = document.getElementById('r-client');
+  const ds = document.getElementById('r-depart');
+  const gs = document.getElementById('r-guide');
+
+  // Indicateur de chargement
+  cs.innerHTML = '<option value="">⏳ Chargement...</option>';
+  ds.innerHTML = '<option value="">⏳ Chargement...</option>';
+
   // Clients
   const cli = await GET('/clients');
-  const cs = document.getElementById('r-client');
+  const clients = cli.ok ? cli.data : DEFAULT_CLIENTS;
   cs.innerHTML = '<option value="">— Sélectionner un client —</option>';
-  if (cli.ok) cli.data.forEach(c => {
-    const o = new Option(`${c.prenom} ${c.nom}`, c.id);
-    cs.add(o);
-  });
+  clients.forEach(c => cs.add(new Option(`${c.prenom} ${c.nom}`, c.id)));
 
   // Départs
   const dep = await GET('/departs');
-  const ds = document.getElementById('r-depart');
+  const departs = dep.ok ? dep.data : DEFAULT_DEPARTS;
   ds.innerHTML = '<option value="">— Sélectionner un départ —</option>';
-  if (dep.ok) dep.data.forEach(d => {
-    const o = new Option(`${d.libelle} — ${d.date_depart} (${d.nb_places_restantes} pl · ${fmt(d.prix_personne)} FCFA)`, d.id);
+  departs.forEach(d => {
+    const o = new Option(
+      `${d.libelle} — ${d.date_depart} (${d.nb_places_restantes} pl · ${fmt(d.prix_personne)} FCFA)`,
+      d.id
+    );
     o.dataset.prix = d.prix_personne;
     o.dataset.rest = d.nb_places_restantes;
     o.dataset.lib  = d.libelle;
@@ -941,13 +1040,12 @@ async function populateSelects() {
 
   // Guides
   const gui = await GET('/guides');
-  const gs = document.getElementById('r-guide');
-  if (gui.ok) gui.data.forEach(g => {
-    const o = new Option(`${g.prenom} ${g.nom}`, g.id);
-    gs.add(o);
-  });
+  const guides = gui.ok ? gui.data : DEFAULT_GUIDES;
+  // vider sauf l'option optionnelle déjà en HTML
+  gs.innerHTML = '<option value="">— Optionnel —</option>';
+  guides.forEach(g => gs.add(new Option(`${g.prenom} ${g.nom}`, g.id)));
 
-  // Destinations (pour circuit modal) — liste fixe
+  // Destinations (pour circuit modal)
   const ccs = document.getElementById('cc-dest');
   ccs.innerHTML = '';
   ['Sénégal','Mali','Cap-Vert','Bénin','Ghana'].forEach((p,i) => ccs.add(new Option(p, i+1)));
@@ -1070,7 +1168,52 @@ function doSearch() {
   showPage('circuits-page');
 }
 
+// ── PAIEMENTS PAGE ───────────────────────────────────────────
+async function loadPaiementsPage() {
+  document.getElementById('paiements-tbody').innerHTML =
+    '<tr><td colspan="6" style="text-align:center;padding:30px;"><div class="spinner"></div></td></tr>';
+
+  const [resPay, resImp] = await Promise.all([
+    GET('/paiements'),
+    GET('/soldes-impayes'),
+  ]);
+
+  const modeLabel = { especes: 'Espèces', virement: 'Virement', carte: 'Carte' };
+
+  if (!resPay.ok) {
+    document.getElementById('paiements-tbody').innerHTML =
+      `<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:20px;">${resPay.error}</td></tr>`;
+  } else {
+    document.getElementById('paiements-tbody').innerHTML = resPay.data.map(p => `
+      <tr>
+        <td>${p.date_paiement}</td>
+        <td>${p.code_resa}</td>
+        <td>${p.client}</td>
+        <td>${p.circuit}</td>
+        <td style="font-weight:700;color:var(--blue);">${fmt(p.montant)} FCFA</td>
+        <td><span class="badge b-blue">${modeLabel[p.mode_paiement] || p.mode_paiement}</span></td>
+      </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--muted);">Aucun paiement.</td></tr>';
+  }
+
+  const impBox = document.getElementById('paiements-impaye-box');
+  if (resImp.ok && resImp.data.length > 0) {
+    document.getElementById('paiements-impaye-tbody').innerHTML = resImp.data.map(r => `
+      <tr>
+        <td>${r.code}</td>
+        <td>${r.client}</td>
+        <td>${r.circuit}</td>
+        <td>${fmt(r.montant_total)} FCFA</td>
+        <td>${fmt(r.total_paye)} FCFA</td>
+        <td style="font-weight:700;color:var(--danger);">${fmt(r.solde_restant)} FCFA</td>
+      </tr>`).join('');
+    impBox.style.display = 'block';
+  } else {
+    impBox.style.display = 'none';
+  }
+}
+
 // ── INIT ─────────────────────────────────────────────────────
+initAuth();
 populateSelects();
 loadHome();
 

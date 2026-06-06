@@ -2,13 +2,18 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "maxDuration": 10
+      "maxDuration": 10,
+      "runtime": "nodejs20.x"
     }
   },
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api/index.js"
+    },
+    {
+      "source": "/login.html",
+      "destination": "/public/login.html"
     },
     {
       "source": "/(.*)",
