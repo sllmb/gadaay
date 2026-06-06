@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GADAAY — Agence de Voyage</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --orange:#f47c3c;--orange-dark:#e06020;
+  --blue:#1a6fc4;--blue-dark:#0d4a8a;--blue-light:#e8f2fd;
+  --white:#fff;--gray:#f5f7fa;--text:#1a1e2e;--muted:#6b7280;
+  --border:#e5e9f2;--radius:14px;--radius-sm:8px;
+  --success-bg:#dcfce7;--success:#15803d;
+  --danger-bg:#fee2e2;--danger:#b91c1c;
+  --warn-bg:#fef3c7;--warn:#92400e;
+}
+body{font-family:'Poppins',sans-serif;color:var(--text);background:#fff;overflow-x:hidden;}
+
+/* ── NAVBAR ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;transition:all .3s;}
+nav.scrolled{background:rgba(255,255,255,.97);box-shadow:0 2px 20px rgba(0,0,0,.08);}
+.nav-logo{font-size:22px;font-weight:800;color:#fff;letter-spacing:1px;cursor:pointer;}
+nav.scrolled .nav-logo{color:var(--text);}
+.nav-links{display:flex;gap:28px;align-items:center;}
+.nav-links span{font-size:14px;font-weight:500;color:rgba(255,255,255,.9);cursor:pointer;transition:.2s;}
+nav.scrolled .nav-links span{color:var(--text);}
+.nav-links span:hover,.nav-links span.active{color:var(--orange);}
+.btn-signup{background:var(--orange);color:#fff!important;padding:10px 24px;border-radius:30px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:.2s;font-family:'Poppins',sans-serif;}
+.btn-signup:hover{background:var(--orange-dark);}
+
+/* ── HERO ── */
+.hero{height:100vh;min-height:600px;position:relative;overflow:hidden;display:flex;align-items:center;}
+.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80') center/cover no-repeat;opacity:.55;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,30,70,.78) 0%,rgba(10,30,70,.25) 100%);}
+.hero-content{position:relative;z-index:2;padding:0 60px;max-width:700px;}
+.hero-content h1{font-size:52px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:18px;animation:fadeUp .7s ease both;}
+.hero-content p{font-size:16px;color:rgba(255,255,255,.8);margin-bottom:32px;animation:fadeUp .7s .15s ease both;}
+.btn-book{display:inline-block;background:var(--orange);color:#fff;padding:14px 36px;border-radius:30px;font-weight:700;font-size:15px;cursor:pointer;border:none;transition:.2s;font-family:'Poppins',sans-serif;animation:fadeUp .7s .3s ease both;}
+.btn-book:hover{background:var(--orange-dark);transform:translateY(-2px);}
+
+/* Search bar */
+.search-bar-hero{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);width:90%;max-width:860px;background:#fff;border-radius:var(--radius);box-shadow:0 16px 48px rgba(0,0,0,.18);display:flex;align-items:center;padding:12px 16px;gap:8px;z-index:10;}
+.sf{flex:1;display:flex;align-items:center;gap:10px;padding:8px 16px;border-radius:var(--radius-sm);border:1.5px solid var(--border);transition:.2s;}
+.sf:focus-within{border-color:var(--orange);}
+.sf svg{width:18px;height:18px;color:var(--muted);flex-shrink:0;}
+.sf-inner{flex:1;}
+.sf-inner label{display:block;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;}
+.sf-inner input{border:none;outline:none;font-family:'Poppins',sans-serif;font-size:13px;width:100%;color:var(--text);background:transparent;}
+.sf-inner input::placeholder{color:#aab;}
+.sdiv{width:1px;height:40px;background:var(--border);flex-shrink:0;}
+.btn-go{background:var(--orange);color:#fff;border:none;width:46px;height:46px;border-radius:50%;cursor:pointer;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0;}
+.btn-go:hover{background:var(--orange-dark);}
+
+/* ── SECTIONS ── */
+section{padding:80px 60px;}
+.stag{font-size:12px;font-weight:600;color:var(--orange);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;}
+.stitle{font-size:32px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:8px;}
+.ssub{font-size:15px;color:var(--muted);max-width:500px;}
+.shead{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:16px;}
+.btn-link{font-size:13px;font-weight:600;color:var(--blue);cursor:pointer;}
+.btn-link:hover{color:var(--orange);}
+
+/* ── DEST CARDS ── */
+.dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.dcard{border-radius:var(--radius);overflow:hidden;position:relative;height:280px;cursor:pointer;transition:.3s;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+.dcard:hover{transform:translateY(-6px);box-shadow:0 12px 36px rgba(0,0,0,.18);}
+.dcard img{width:100%;height:100%;object-fit:cover;transition:.4s;}
+.dcard:hover img{transform:scale(1.07);}
+.dcard-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);}
+.dcard-info{position:absolute;bottom:0;left:0;right:0;padding:18px 16px;}
+.dcard-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--orange);background:rgba(255,255,255,.15);backdrop-filter:blur(4px);padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:6px;}
+.dcard-name{font-size:15px;font-weight:700;color:#fff;margin-bottom:3px;}
+.dcard-meta{display:flex;align-items:center;justify-content:space-between;font-size:12px;}
+.dcard-price{font-weight:700;color:var(--orange);}
+.dcard-days{color:rgba(255,255,255,.75);}
+
+/* ── ABOUT ── */
+.about-section{background:var(--gray);padding:80px 60px;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.about-text h2{font-size:36px;font-weight:800;margin-bottom:16px;line-height:1.2;}
+.about-text p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:24px;}
+.stats-row{display:flex;gap:40px;margin-bottom:32px;}
+.snum{font-size:28px;font-weight:800;color:var(--blue);}
+.slbl{font-size:12px;color:var(--muted);font-weight:500;}
+.btn-adv{background:var(--orange);color:#fff;border:none;padding:12px 30px;border-radius:30px;font-weight:600;font-size:14px;cursor:pointer;font-family:'Poppins',sans-serif;transition:.2s;}
+.btn-adv:hover{background:var(--orange-dark);}
+.about-img{border-radius:20px;overflow:hidden;height:420px;}
+.about-img img{width:100%;height:100%;object-fit:cover;}
+
+/* ── RECO CARDS ── */
+.reco-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.rcard{border-radius:var(--radius);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08);background:#fff;transition:.3s;cursor:pointer;}
+.rcard:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.14);}
+.rcard-img{height:200px;position:relative;overflow:hidden;}
+.rcard-img img{width:100%;height:100%;object-fit:cover;transition:.4s;}
+.rcard:hover .rcard-img img{transform:scale(1.05);}
+.rcard-tag{position:absolute;top:12px;left:12px;background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;}
+.rcard-body{padding:16px 18px;}
+.rcard-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.rcard-sub{font-size:12px;color:var(--muted);margin-bottom:10px;}
+.rcard-foot{display:flex;align-items:center;justify-content:space-between;}
+.rcard-price{font-size:15px;font-weight:700;color:var(--blue);}
+.stars{color:#f4b942;font-size:12px;}
+
+/* ── TESTIMONIAL ── */
+.tbox{max-width:640px;margin:0 auto;text-align:center;background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,.08);position:relative;}
+.quote-icon{font-size:60px;color:var(--border);line-height:1;font-family:Georgia,serif;position:absolute;top:20px;left:30px;}
+.ttext{font-size:15px;color:var(--muted);line-height:1.8;margin:20px 0 24px;font-style:italic;}
+.tauthor{font-weight:700;font-size:15px;}
+.tloc{font-size:13px;color:var(--muted);}
+
+/* ── NEWSLETTER ── */
+.newsletter{background:linear-gradient(135deg,var(--blue-dark),var(--blue));padding:60px;text-align:center;color:#fff;}
+.newsletter h2{font-size:28px;font-weight:800;margin-bottom:8px;}
+.newsletter p{font-size:15px;opacity:.8;margin-bottom:28px;}
+.nl-form{display:flex;max-width:460px;margin:0 auto;}
+.nl-form input{flex:1;padding:14px 20px;border:none;border-radius:30px 0 0 30px;font-family:'Poppins',sans-serif;font-size:14px;outline:none;}
+.nl-form button{background:var(--orange);color:#fff;border:none;padding:14px 28px;border-radius:0 30px 30px 0;font-weight:700;cursor:pointer;font-size:14px;font-family:'Poppins',sans-serif;transition:.2s;}
+.nl-form button:hover{background:var(--orange-dark);}
+
+/* ── FOOTER ── */
+footer{background:#0d1b38;color:rgba(255,255,255,.7);padding:50px 60px 30px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-logo{font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;}
+.footer-desc{font-size:13px;line-height:1.8;}
+.fcol h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px;}
+.fcol ul{list-style:none;}
+.fcol li{font-size:13px;margin-bottom:8px;cursor:pointer;transition:.2s;}
+.fcol li:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;font-size:12px;}
+
+/* ── APP PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
+.app-wrap{background:var(--gray);min-height:100vh;padding:90px 60px 60px;}
+.page-hdr{margin-bottom:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.page-hdr h1{font-size:26px;font-weight:800;}
+.page-hdr p{font-size:13px;color:var(--muted);margin-top:2px;}
+
+/* Stats row */
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
+.sc{background:#fff;border-radius:var(--radius);padding:20px 22px;box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.sc-lbl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.4px;}
+.sc-val{font-size:28px;font-weight:800;margin:6px 0 2px;}
+.sc-sub{font-size:12px;color:var(--muted);}
+.sc.orange .sc-val{color:var(--orange);}
+.sc.blue .sc-val{color:var(--blue);}
+.sc.green .sc-val{color:#15803d;}
+
+/* Table card */
+.tcard{background:#fff;border-radius:var(--radius);box-shadow:0 4px 16px rgba(0,0,0,.06);overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:12px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:13px 16px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:#fafbff;}
+
+/* Circuit grid */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.cc{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.07);transition:.25s;cursor:pointer;}
+.cc:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.13);}
+.cc-img{height:160px;position:relative;overflow:hidden;}
+.cc-img img{width:100%;height:100%;object-fit:cover;transition:.4s;}
+.cc:hover .cc-img img{transform:scale(1.07);}
+.cc-badge{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.95);color:var(--text);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.cc-badge.full{background:var(--orange);color:#fff;}
+.cc-info{padding:14px 16px;}
+.cc-name{font-size:14px;font-weight:700;margin-bottom:2px;}
+.cc-dest{font-size:12px;color:var(--muted);margin-bottom:8px;}
+.progress{height:5px;background:var(--border);border-radius:10px;overflow:hidden;margin:6px 0;}
+.pfill{height:100%;border-radius:10px;background:var(--orange);}
+.cc-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;}
+.cc-price{font-weight:800;color:var(--blue);font-size:14px;}
+
+/* Badges */
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.b-green{background:var(--success-bg);color:var(--success);}
+.b-red{background:var(--danger-bg);color:var(--danger);}
+.b-blue{background:var(--blue-light);color:var(--blue);}
+.b-yellow{background:var(--warn-bg);color:var(--warn);}
+.b-gray{background:#f3f4f6;color:#6b7280;}
+
+/* Pay summary */
+.paybox{background:var(--blue-light);border:1px solid #c7ddf7;border-radius:var(--radius-sm);padding:16px 20px;margin-top:16px;}
+.prow{display:flex;justify-content:space-between;padding:3px 0;font-size:14px;}
+.prow .ll{color:var(--muted);}
+.prow.ptotal .ll{font-weight:700;color:var(--text);}
+.prow.ptotal .vv{font-size:16px;font-weight:800;color:var(--orange);}
+
+/* Alert impayé */
+.impaye-box{background:#fff7ed;border:1px solid #fed7aa;border-radius:var(--radius);padding:16px 20px;margin-bottom:24px;}
+.impaye-title{font-weight:700;color:#c2410c;margin-bottom:12px;font-size:14px;}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,20,50,.55);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;width:520px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.22);animation:modalIn .22s ease;}
+@keyframes modalIn{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+.mhead{padding:22px 26px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.mhead h3{font-size:17px;font-weight:700;}
+.mclose{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);padding:4px 8px;border-radius:6px;}
+.mclose:hover{background:var(--gray);color:var(--text);}
+.mbody{padding:22px 26px;}
+.mfoot{padding:16px 26px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:12px;}
+
+/* Forms */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.ff{grid-column:1/-1;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.4px;}
+.fg input,.fg select,.fg textarea{padding:9px 13px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'Poppins',sans-serif;font-size:13px;background:#fff;transition:.2s;}
+.fg input:focus,.fg select:focus{outline:none;border-color:var(--orange);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:30px;font-family:'Poppins',sans-serif;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:.2s;}
+.btn-primary{background:var(--orange);color:#fff;}
+.btn-primary:hover{background:var(--orange-dark);}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);}
+.btn-outline:hover{border-color:var(--orange);color:var(--orange);}
+.btn-blue{background:var(--blue);color:#fff;}
+.btn-blue:hover{background:var(--blue-dark);}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border:none;}
+.btn-sm{padding:5px 14px;font-size:12px;}
+
+/* Alert inline */
+.ialert{display:none;padding:10px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;margin-bottom:14px;align-items:center;gap:8px;}
+.ialert.show{display:flex;}
+.ia-success{background:var(--success-bg);color:var(--success);}
+.ia-danger{background:var(--danger-bg);color:var(--danger);}
+.ia-info{background:var(--blue-light);color:var(--blue);}
+
+/* Loading spinner */
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Toast */
+.toast{position:fixed;bottom:30px;right:30px;background:var(--text);color:#fff;padding:14px 22px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;z-index:9999;transform:translateY(80px);opacity:0;transition:.3s;}
+.toast.show{transform:none;opacity:1;}
+.toast.success{background:#15803d;}
+.toast.error{background:#b91c1c;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:10px;}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="showPage('home')">GADAAY</div>
+  <div class="nav-links">
+    <span class="active" onclick="showPage('home')">Circuits</span>
+    <span onclick="showPage('circuits-page')">Catalogue</span>
+    <span onclick="showPage('reservations-page')">Réservations</span>
+    <span onclick="showPage('clients-page')">Clients</span>
+    <span onclick="showPage('dashboard-page')">Tableau de bord</span>
+    <button class="btn-signup" onclick="openModal('modal-resa')">Réserver</button>
+  </div>
+</nav>
+
+<!-- ══ HOME ══ -->
+<div class="page active" id="home">
+
+<section class="hero" style="padding:0;">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Vivez un Voyage<br>Inoubliable avec Nous</h1>
+    <p>Découvrez les plus belles destinations d'Afrique de l'Ouest.<br>Des circuits sur mesure pour des souvenirs éternels.</p>
+    <button class="btn-book" onclick="document.getElementById('sec-circuits').scrollIntoView({behavior:'smooth'})">Réserver Maintenant</button>
+  </div>
+  <div class="search-bar-hero">
+    <div class="sf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <div class="sf-inner"><label>Date départ</label><input type="date" id="s-date"></div>
+    </div>
+    <div class="sdiv"></div>
+    <div class="sf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div class="sf-inner"><label>Destination</label><input type="text" id="s-dest" placeholder="Mali, Cap-Vert, Ghana…"></div>
+    </div>
+    <div class="sdiv"></div>
+    <div class="sf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <div class="sf-inner"><label>Personnes</label><input type="number" id="s-pers" min="1" placeholder="2"></div>
+    </div>
+    <button class="btn-go" onclick="doSearch()">→</button>
+  </div>
+</section>
+
+<!-- Destinations -->
+<section style="padding:100px 60px 60px;">
+  <div class="shead">
+    <div>
+      <div class="stag">Nos Destinations</div>
+      <div class="stitle">Avec Notre Top Expérience</div>
+      <div class="ssub">Les moments les plus précieux, explorez l'inconnu.</div>
+    </div>
+    <span class="btn-link" onclick="showPage('circuits-page')">Voir tout →</span>
+  </div>
+  <div class="dest-grid" id="dest-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;"><div class="spinner"></div></div>
+  </div>
+</section>
+
+<!-- About -->
+<div class="about-section">
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="stag">À Propos</div>
+      <h2>Trouvez Votre<br>Destination de Rêve</h2>
+      <p>Le voyage nous a aidés à comprendre le sens de la vie. Chaque fois que nous voyageons, nous voyons le monde avec de nouveaux yeux et devenons de meilleures personnes.</p>
+      <div class="stats-row">
+        <div><div class="snum">850+</div><div class="slbl">Voyageurs</div></div>
+        <div><div class="snum">42</div><div class="slbl">Destinations</div></div>
+        <div><div class="snum">8</div><div class="slbl">Guides</div></div>
+      </div>
+      <button class="btn-adv" onclick="showPage('circuits-page')">Explorer →</button>
+    </div>
+    <div class="about-img"><img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&q=80" alt="Adventure" loading="lazy"></div>
+  </div>
+</div>
+
+<!-- Recommandations -->
+<section id="sec-circuits">
+  <div class="shead">
+    <div>
+      <div class="stag">Circuits</div>
+      <div class="stitle">Nos Recommandations</div>
+      <div class="ssub">La vie commence au bout de ta zone de confort.</div>
+    </div>
+    <span class="btn-link" onclick="showPage('circuits-page')">Voir tout →</span>
+  </div>
+  <div class="reco-grid" id="reco-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:30px;"><div class="spinner"></div></div>
+  </div>
+</section>
+
+<!-- Témoignage -->
+<section style="background:var(--gray);">
+  <div style="text-align:center;margin-bottom:36px;"><div class="stag" style="display:inline-block;">Témoignages</div><div class="stitle" style="margin-top:8px;">Ce que disent nos voyageurs</div></div>
+  <div class="tbox">
+    <div class="quote-icon">"</div>
+    <div class="ttext">"Dans vingt ans, vous serez plus déçu par les choses que vous n'avez pas faites que par celles que vous avez faites. Explorez. Rêvez. Découvrez. Ce voyage au Mali restera gravé à jamais."</div>
+    <div class="tauthor">Fatou Diallo</div>
+    <div class="tloc">Dakar, Sénégal</div>
+  </div>
+</section>
+
+<div class="newsletter">
+  <h2>Abonnez-vous à notre Newsletter</h2>
+  <p>Recevez les meilleures offres et nouveaux circuits en avant-première.</p>
+  <div class="nl-form"><input type="email" placeholder="Votre adresse email…"><button>Envoyer →</button></div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">GADAAY</div>
+      <div class="footer-desc">Votre partenaire de voyage en Afrique de l'Ouest. Des expériences authentiques, des souvenirs inoubliables.</div>
+    </div>
+    <div class="fcol"><h4>Circuits</h4><ul><li onclick="showPage('circuits-page')">Catalogue</li><li>Expériences</li><li>Blog</li></ul></div>
+    <div class="fcol"><h4>Gestion</h4><ul><li onclick="showPage('reservations-page')">Réservations</li><li onclick="showPage('clients-page')">Clients</li><li onclick="showPage('dashboard-page')">Tableau de bord</li></ul></div>
+    <div class="fcol"><h4>Contact</h4><ul><li>+221 33 000 00 00</li><li>info@gadaay.sn</li><li>Dakar, Sénégal</li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 GADAAY — L2 GLSI · ESP Dakar</span><span>Tous droits réservés</span></div>
+</footer>
+</div><!-- /home -->
+
+<!-- ══ CIRCUITS PAGE ══ -->
+<div class="page" id="circuits-page">
+<div class="app-wrap">
+  <div class="page-hdr">
+    <div><h1>Circuits & Départs</h1><p>Tous nos circuits disponibles en Afrique de l'Ouest</p></div>
+    <button class="btn btn-primary" onclick="openModal('modal-circuit')">+ Nouveau circuit</button>
+  </div>
+  <div class="cgrid" id="cgrid"><div style="text-align:center;padding:40px;grid-column:1/-1;"><div class="spinner"></div></div></div>
+</div>
+</div>
+
+<!-- ══ RESERVATIONS PAGE ══ -->
+<div class="page" id="reservations-page">
+<div class="app-wrap">
+  <div class="page-hdr">
+    <div><h1>Réservations</h1><p>Gérez toutes les réservations clients</p></div>
+    <button class="btn btn-primary" onclick="openModal('modal-resa')">+ Nouvelle réservation</button>
+  </div>
+  <div class="sgrid">
+    <div class="sc blue"><div class="sc-lbl">Total</div><div class="sc-val" id="st-total">—</div></div>
+    <div class="sc orange"><div class="sc-lbl">Soldes impayés</div><div class="sc-val" id="st-impaye">—</div></div>
+    <div class="sc green"><div class="sc-lbl">Soldées</div><div class="sc-val" id="st-solde">—</div></div>
+    <div class="sc"><div class="sc-lbl">Annulées</div><div class="sc-val" id="st-annule">—</div></div>
+  </div>
+  <div class="impaye-box" id="impaye-box" style="display:none;">
+    <div class="impaye-title">⚠ Réservations avec solde impayé</div>
+    <div class="tcard"><table><thead><tr><th>Client</th><th>Circuit</th><th>Payé</th><th>Solde restant</th><th>Action</th></tr></thead><tbody id="impaye-tbody"></tbody></table></div>
+  </div>
+  <div class="tcard"><table><thead><tr><th>Code</th><th>Client</th><th>Circuit</th><th>Pers.</th><th>Total</th><th>Payé</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="resa-tbody"><tr><td colspan="8" style="text-align:center;padding:30px;"><div class="spinner"></div></td></tr></tbody></table></div>
+</div>
+</div>
+
+<!-- ══ CLIENTS PAGE ══ -->
+<div class="page" id="clients-page">
+<div class="app-wrap">
+  <div class="page-hdr">
+    <div><h1>Clients</h1><p>Gérez votre base de clients</p></div>
+    <button class="btn btn-primary" onclick="openModal('modal-client')">+ Nouveau client</button>
+  </div>
+  <div class="tcard"><table><thead><tr><th>Client</th><th>Nationalité</th><th>Email</th><th>Téléphone</th><th>Réservations</th><th>Actions</th></tr></thead><tbody id="cli-tbody"><tr><td colspan="6" style="text-align:center;padding:30px;"><div class="spinner"></div></td></tr></tbody></table></div>
+</div>
+</div>
+
+<!-- ══ DASHBOARD PAGE ══ -->
+<div class="page" id="dashboard-page">
+<div class="app-wrap">
+  <div class="page-hdr"><div><h1>Tableau de bord</h1><p>Vue globale de l'agence — Juin 2026</p></div></div>
+  <div class="sgrid">
+    <div class="sc orange"><div class="sc-lbl">Départs ce mois</div><div class="sc-val" id="d-departs">—</div></div>
+    <div class="sc blue"><div class="sc-lbl">Soldes impayés</div><div class="sc-val" id="d-impaye">—</div></div>
+    <div class="sc green"><div class="sc-lbl">CA du mois (FCFA)</div><div class="sc-val" id="d-ca">—</div></div>
+    <div class="sc"><div class="sc-lbl">Taux remplissage</div><div class="sc-val" id="d-taux">—</div></div>
+  </div>
+  <div class="tcard" style="margin-top:8px;">
+    <div style="padding:16px 20px;font-weight:700;font-size:14px;border-bottom:1px solid var(--border);">Prochains départs</div>
+    <table><thead><tr><th>Circuit</th><th>Date départ</th><th>Places restantes</th><th>Statut</th></tr></thead><tbody id="dash-departs"></tbody></table>
+  </div>
+</div>
+</div>
+
+<!-- ══════════ MODALS ══════════ -->
+
+<!-- Réservation -->
+<div class="modal-overlay" id="modal-resa">
+  <div class="modal">
+    <div class="mhead"><h3>Créer une réservation</h3><button class="mclose" onclick="closeModal('modal-resa')">✕</button></div>
+    <div class="mbody">
+      <div class="ialert" id="al-resa"></div>
+      <div class="fgrid">
+        <div class="fg ff"><label>Client</label><select id="r-client"><option value="">— Chargement… —</option></select></div>
+        <div class="fg ff"><label>Départ / Circuit</label><select id="r-depart" onchange="calcAcompte()"><option value="">— Chargement… —</option></select></div>
+        <div class="fg"><label>Nombre de personnes</label><input id="r-nb" type="number" min="1" value="1" oninput="calcAcompte()"></div>
+        <div class="fg"><label>Guide attitré</label><select id="r-guide"><option value="">— Optionnel —</option></select></div>
+      </div>
+      <div class="paybox" id="resa-sum" style="display:none;">
+        <div class="prow"><span class="ll">Prix / personne</span><span class="vv" id="rs-prix">—</span></div>
+        <div class="prow"><span class="ll">Personnes</span><span class="vv" id="rs-nb">—</span></div>
+        <div class="prow ptotal"><span class="ll">Total</span><span class="vv" id="rs-total">—</span></div>
+        <div class="prow"><span class="ll">Acompte requis (30%)</span><span class="vv" id="rs-ac" style="color:var(--orange);font-weight:700;">—</span></div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-outline" onclick="closeModal('modal-resa')">Annuler</button>
+      <button class="btn btn-primary" onclick="addReservation()">Confirmer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Paiement -->
+<div class="modal-overlay" id="modal-paiement">
+  <div class="modal">
+    <div class="mhead"><h3>Enregistrer un paiement</h3><button class="mclose" onclick="closeModal('modal-paiement')">✕</button></div>
+    <div class="mbody">
+      <div class="ialert" id="al-pay"></div>
+      <input type="hidden" id="p-resaid">
+      <div class="fgrid">
+        <div class="fg ff"><label>Réservation</label><input id="p-code" readonly style="background:var(--gray)"></div>
+        <div class="fg"><label>Montant (FCFA)</label><input id="p-montant" type="number"></div>
+        <div class="fg"><label>Mode de paiement</label><select id="p-mode"><option value="especes">Espèces</option><option value="virement">Virement</option><option value="carte">Carte bancaire</option></select></div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-outline" onclick="closeModal('modal-paiement')">Annuler</button>
+      <button class="btn btn-primary" onclick="savePaiement()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Annulation -->
+<div class="modal-overlay" id="modal-annul">
+  <div class="modal">
+    <div class="mhead"><h3 style="color:var(--danger)">Annuler la réservation</h3><button class="mclose" onclick="closeModal('modal-annul')">✕</button></div>
+    <div class="mbody">
+      <input type="hidden" id="an-id">
+      <p style="font-size:14px;margin-bottom:14px;">Annuler la réservation <strong id="an-code"></strong> de <strong id="an-client"></strong> ?</p>
+      <div style="background:var(--warn-bg);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--warn);">⚠ Les places seront automatiquement restituées au départ correspondant.</div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-outline" onclick="closeModal('modal-annul')">Conserver</button>
+      <button class="btn btn-danger" onclick="confirmAnnul()">Confirmer l'annulation</button>
+    </div>
+  </div>
+</div>
+
+<!-- Nouveau circuit -->
+<div class="modal-overlay" id="modal-circuit">
+  <div class="modal">
+    <div class="mhead"><h3>Nouveau circuit</h3><button class="mclose" onclick="closeModal('modal-circuit')">✕</button></div>
+    <div class="mbody">
+      <div class="ialert" id="al-circ"></div>
+      <div class="fgrid">
+        <div class="fg"><label>Code</label><input id="cc-code" placeholder="CIR-009"></div>
+        <div class="fg"><label>Libellé</label><input id="cc-lib" placeholder="Nom du circuit"></div>
+        <div class="fg"><label>Destination</label>
+          <select id="cc-dest"><option value="">— Chargement —</option></select>
+        </div>
+        <div class="fg"><label>Durée (jours)</label><input id="cc-duree" type="number" placeholder="7"></div>
+        <div class="fg"><label>Prix / pers. (FCFA)</label><input id="cc-prix" type="number" placeholder="200000"></div>
+        <div class="fg"><label>Places max</label><input id="cc-places" type="number" placeholder="20"></div>
+        <div class="fg ff"><label>Date de premier départ</label><input id="cc-date" type="date"></div>
+        <div class="fg ff"><label>URL image (Unsplash)</label><input id="cc-img" placeholder="https://images.unsplash.com/…"></div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-outline" onclick="closeModal('modal-circuit')">Annuler</button>
+      <button class="btn btn-primary" onclick="addCircuit()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Nouveau client -->
+<div class="modal-overlay" id="modal-client">
+  <div class="modal">
+    <div class="mhead"><h3>Nouveau client</h3><button class="mclose" onclick="closeModal('modal-client')">✕</button></div>
+    <div class="mbody">
+      <div class="ialert" id="al-cli"></div>
+      <div class="fgrid">
+        <div class="fg"><label>Nom</label><input id="cl-nom"></div>
+        <div class="fg"><label>Prénom</label><input id="cl-prenom"></div>
+        <div class="fg"><label>Nationalité</label><input id="cl-nat" placeholder="Sénégalaise"></div>
+        <div class="fg"><label>Téléphone</label><input id="cl-tel" placeholder="+221 77 …"></div>
+        <div class="fg ff"><label>Email</label><input id="cl-email" type="email"></div>
+      </div>
+    </div>
+    <div class="mfoot">
+      <button class="btn btn-outline" onclick="closeModal('modal-client')">Annuler</button>
+      <button class="btn btn-primary" onclick="addClient()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────
+const API = '/api'; // en prod, vercel redirige /api → api/index.js
+
+// ── HELPERS ─────────────────────────────────────────────────
+async function GET(url) {
+  const r = await fetch(API + url);
+  return r.json();
+}
+async function POST(url, body) {
+  const r = await fetch(API + url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  return r.json();
+}
+async function PUT(url) {
+  const r = await fetch(API + url, { method: 'PUT' });
+  return r.json();
+}
+
+function fmt(n) { return Number(n).toLocaleString('fr-FR'); }
+
+function toast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function showAlert(id, msg, type) {
+  const a = document.getElementById(id);
+  a.textContent = msg; a.className = 'ialert show ia-' + type;
+  setTimeout(() => a.classList.remove('show'), 4000);
+}
+
+// ── NAVIGATION ──────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  const handlers = {
+    'circuits-page': loadCircuitsPage,
+    'reservations-page': loadReservationsPage,
+    'clients-page': loadClientsPage,
+    'dashboard-page': loadDashboard,
+    'home': loadHome,
+  };
+  if (handlers[id]) handlers[id]();
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── MODALS ──────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o =>
+  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); })
+);
+
+// ── HOME ────────────────────────────────────────────────────
+async function loadHome() {
+  // Destinations (4 premiers circuits)
+  const res = await GET('/circuits');
+  if (!res.ok) return;
+  const circuits = res.data.slice(0, 4);
+  const tags = ['Solo Tour', 'Couple Tour', 'Family Tour', 'Groupe Tour'];
+  document.getElementById('dest-grid').innerHTML = circuits.map((c, i) => `
+    <div class="dcard">
+      <img src="${c.image_url || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=70'}" alt="${c.libelle}" loading="lazy">
+      <div class="dcard-ov"></div>
+      <div class="dcard-info">
+        <span class="dcard-type">${tags[i] || 'Tour'}</span>
+        <div class="dcard-name">${c.libelle}</div>
+        <div class="dcard-meta">
+          <span class="dcard-days">${c.duree} Jours</span>
+          <span class="dcard-price">${fmt(c.prix_personne)} FCFA</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Recommandations (3 circuits)
+  const reco = res.data.slice(0, 3);
+  document.getElementById('reco-grid').innerHTML = reco.map((c, i) => `
+    <div class="rcard">
+      <div class="rcard-img">
+        <img src="${c.image_url || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=70'}" alt="${c.libelle}" loading="lazy">
+        <span class="rcard-tag">${tags[i] || 'Tour'}</span>
+      </div>
+      <div class="rcard-body">
+        <div class="rcard-title">${c.libelle}</div>
+        <div class="rcard-sub">${c.pays} · ${c.duree} Jours</div>
+        <div class="rcard-foot">
+          <span class="rcard-price">${fmt(c.prix_personne)} FCFA</span>
+          <span><span class="stars">★★★★★</span> <span style="font-size:12px;color:var(--muted);">4.9</span></span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── CIRCUITS PAGE ────────────────────────────────────────────
+async function loadCircuitsPage() {
+  const res = await GET('/circuits');
+  if (!res.ok) return;
+  document.getElementById('cgrid').innerHTML = res.data.map(c => {
+    const rest = c.nb_places_restantes ?? c.nb_places_max;
+    const fill = Math.round((c.nb_places_max - rest) / c.nb_places_max * 100);
+    const full = rest === 0 || c.statut === 'complet';
+    return `<div class="cc">
+      <div class="cc-img">
+        <img src="${c.image_url || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=70'}" alt="${c.libelle}" loading="lazy">
+        <span class="cc-badge${full ? ' full' : ''}">${full ? 'Complet' : rest + ' places'}</span>
+      </div>
+      <div class="cc-info">
+        <div class="cc-name">${c.libelle}</div>
+        <div class="cc-dest">📍 ${c.pays || c.ville || ''} · ${c.duree} jours</div>
+        <div class="progress"><div class="pfill" style="width:${fill}%"></div></div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">${fill}% rempli · ${c.date_depart ? 'Départ : ' + c.date_depart : 'Pas de départ'}</div>
+        <div class="cc-foot">
+          <span class="cc-price">${fmt(c.prix_personne)} FCFA</span>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-resa')" ${full ? 'disabled style="opacity:.5;cursor:not-allowed"' : ''}>Réserver</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── RESERVATIONS PAGE ────────────────────────────────────────
+async function loadReservationsPage() {
+  const res = await GET('/reservations');
+  if (!res.ok) return;
+  const data = res.data;
+
+  const total   = data.length;
+  const impaye  = data.filter(r => r.solde_restant > 0 && r.statut !== 'annule').length;
+  const solde   = data.filter(r => r.solde_restant <= 0 && r.statut !== 'annule').length;
+  const annule  = data.filter(r => r.statut === 'annule').length;
+
+  document.getElementById('st-total').textContent   = total;
+  document.getElementById('st-impaye').textContent  = impaye;
+  document.getElementById('st-solde').textContent   = solde;
+  document.getElementById('st-annule').textContent  = annule;
+
+  const imp = data.filter(r => r.solde_restant > 0 && r.statut !== 'annule');
+  if (imp.length) {
+    document.getElementById('impaye-box').style.display = 'block';
+    document.getElementById('impaye-tbody').innerHTML = imp.map(r => `
+      <tr>
+        <td><strong>${r.client}</strong></td>
+        <td>${r.circuit}</td>
+        <td>${fmt(r.total_paye)} FCFA</td>
+        <td style="color:var(--danger);font-weight:700;">${fmt(r.solde_restant)} FCFA</td>
+        <td><button class="btn btn-primary btn-sm" onclick="openPayModal(${r.id},'${r.code}',${r.solde_restant})">Payer</button></td>
+      </tr>`).join('');
+  } else {
+    document.getElementById('impaye-box').style.display = 'none';
+  }
+
+  document.getElementById('resa-tbody').innerHTML = data.map(r => {
+    const annule  = r.statut === 'annule';
+    const solde   = r.solde_restant <= 0 && !annule;
+    const impaye  = r.solde_restant > 0 && !annule;
+    return `<tr>
+      <td><strong>${r.code}</strong></td>
+      <td>${r.client}</td>
+      <td>${r.circuit}<br><small style="color:var(--muted)">${r.date_reservation}</small></td>
+      <td>${r.nb_personnes}</td>
+      <td>${fmt(r.montant_total)} FCFA</td>
+      <td>${fmt(r.total_paye)} FCFA</td>
+      <td><span class="badge ${annule ? 'b-yellow' : solde ? 'b-green' : 'b-red'}">${annule ? 'Annulée' : solde ? 'Soldée' : 'Impayé'}</span></td>
+      <td style="display:flex;gap:6px;flex-wrap:wrap;">
+        ${impaye ? `<button class="btn btn-primary btn-sm" onclick="openPayModal(${r.id},'${r.code}',${r.solde_restant})">Payer</button>` : ''}
+        ${!annule ? `<button class="btn btn-danger btn-sm" onclick="openAnnulModal(${r.id},'${r.code}','${r.client}')">Annuler</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── CLIENTS PAGE ─────────────────────────────────────────────
+async function loadClientsPage() {
+  const res = await GET('/clients');
+  if (!res.ok) return;
+  document.getElementById('cli-tbody').innerHTML = res.data.map(c => `
+    <tr>
+      <td><div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;border-radius:50%;background:var(--blue-light);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;">${(c.prenom||'?')[0]}${(c.nom||'?')[0]}</div>
+        <strong>${c.prenom} ${c.nom}</strong>
+      </div></td>
+      <td>${c.nationalite || '—'}</td>
+      <td style="color:var(--blue);">${c.email}</td>
+      <td>${c.telephone || '—'}</td>
+      <td><span class="badge b-blue">${c.nb_reservations} résa.</span></td>
+      <td><button class="btn btn-outline btn-sm">Historique</button></td>
+    </tr>`).join('');
+}
+
+// ── DASHBOARD ────────────────────────────────────────────────
+async function loadDashboard() {
+  const res = await GET('/dashboard');
+  if (!res.ok) return;
+  const d = res.data;
+  document.getElementById('d-departs').textContent = d.departs_mois;
+  document.getElementById('d-impaye').textContent  = d.soldes_impayes;
+  document.getElementById('d-ca').textContent      = fmt(d.ca_mois);
+  document.getElementById('d-taux').textContent    = d.taux_remplissage + '%';
+
+  document.getElementById('dash-departs').innerHTML = (d.prochains_departs || []).map(d => `
+    <tr>
+      <td><strong>${d.libelle}</strong></td>
+      <td>${d.date_depart}</td>
+      <td>${d.nb_places_restantes}</td>
+      <td><span class="badge ${d.statut === 'ouvert' ? 'b-green' : d.statut === 'complet' ? 'b-red' : 'b-gray'}">${d.statut}</span></td>
+    </tr>`).join('');
+}
+
+// ── SELECTS POPULATE ─────────────────────────────────────────
+async function populateSelects() {
+  // Clients
+  const cli = await GET('/clients');
+  const cs = document.getElementById('r-client');
+  cs.innerHTML = '<option value="">— Sélectionner un client —</option>';
+  if (cli.ok) cli.data.forEach(c => {
+    const o = new Option(`${c.prenom} ${c.nom}`, c.id);
+    cs.add(o);
+  });
+
+  // Départs
+  const dep = await GET('/departs');
+  const ds = document.getElementById('r-depart');
+  ds.innerHTML = '<option value="">— Sélectionner un départ —</option>';
+  if (dep.ok) dep.data.forEach(d => {
+    const o = new Option(`${d.libelle} — ${d.date_depart} (${d.nb_places_restantes} pl · ${fmt(d.prix_personne)} FCFA)`, d.id);
+    o.dataset.prix = d.prix_personne;
+    o.dataset.rest = d.nb_places_restantes;
+    o.dataset.lib  = d.libelle;
+    ds.add(o);
+  });
+
+  // Guides
+  const gui = await GET('/guides');
+  const gs = document.getElementById('r-guide');
+  if (gui.ok) gui.data.forEach(g => {
+    const o = new Option(`${g.prenom} ${g.nom}`, g.id);
+    gs.add(o);
+  });
+
+  // Destinations (pour circuit modal)
+  const dest = await GET('/departs'); // use circuits for destinations
+  const ccs = document.getElementById('cc-dest');
+  ccs.innerHTML = '';
+  const pays = ['Sénégal','Mali','Cap-Vert','Bénin','Ghana'];
+  const ids  = [1,2,3,4,5];
+  pays.forEach((p,i) => { const o = new Option(p, ids[i]); ccs.add(o); });
+}
+
+// ── ACOMPTE CALC ─────────────────────────────────────────────
+function calcAcompte() {
+  const s = document.getElementById('r-depart');
+  const o = s.options[s.selectedIndex];
+  const nb = parseInt(document.getElementById('r-nb').value) || 0;
+  const box = document.getElementById('resa-sum');
+  if (!o || !o.dataset.prix) { box.style.display = 'none'; return; }
+  const prix = parseFloat(o.dataset.prix), total = prix * nb, ac = Math.round(total * 0.3);
+  document.getElementById('rs-prix').textContent  = fmt(prix) + ' FCFA';
+  document.getElementById('rs-nb').textContent    = nb;
+  document.getElementById('rs-total').textContent = fmt(total) + ' FCFA';
+  document.getElementById('rs-ac').textContent    = fmt(ac) + ' FCFA';
+  box.style.display = 'block';
+}
+
+// ── ADD RESERVATION ──────────────────────────────────────────
+async function addReservation() {
+  const id_client  = document.getElementById('r-client').value;
+  const id_depart  = document.getElementById('r-depart').value;
+  const nb         = parseInt(document.getElementById('r-nb').value) || 0;
+  const id_guide   = document.getElementById('r-guide').value || null;
+  if (!id_client || !id_depart || nb < 1)
+    return showAlert('al-resa', 'Remplissez tous les champs obligatoires.', 'danger');
+
+  const res = await POST('/reservations', { id_client, id_depart, id_guide, nb_personnes: nb });
+  if (!res.ok) return showAlert('al-resa', res.error, 'danger');
+
+  closeModal('modal-resa');
+  toast(`Réservation ${res.code} confirmée ! Acompte : ${fmt(res.acompte)} FCFA`);
+  showPage('reservations-page');
+}
+
+// ── PAY MODAL ────────────────────────────────────────────────
+function openPayModal(id, code, solde) {
+  document.getElementById('p-resaid').value = id;
+  document.getElementById('p-code').value   = code;
+  document.getElementById('p-montant').value = solde;
+  openModal('modal-paiement');
+}
+
+async function savePaiement() {
+  const id_reservation = document.getElementById('p-resaid').value;
+  const montant        = parseFloat(document.getElementById('p-montant').value) || 0;
+  const mode_paiement  = document.getElementById('p-mode').value;
+  if (!montant) return showAlert('al-pay', 'Saisissez un montant.', 'danger');
+
+  const res = await POST('/paiements', { id_reservation, montant, mode_paiement });
+  if (!res.ok) return showAlert('al-pay', res.error, 'danger');
+  closeModal('modal-paiement');
+  toast('Paiement enregistré avec succès !');
+  loadReservationsPage();
+}
+
+// ── ANNULATION ───────────────────────────────────────────────
+function openAnnulModal(id, code, client) {
+  document.getElementById('an-id').value = id;
+  document.getElementById('an-code').textContent   = code;
+  document.getElementById('an-client').textContent = client;
+  openModal('modal-annul');
+}
+
+async function confirmAnnul() {
+  const id = document.getElementById('an-id').value;
+  const res = await PUT(`/reservations/${id}/annuler`);
+  if (!res.ok) return toast(res.error, 'error');
+  closeModal('modal-annul');
+  toast('Réservation annulée. Places restituées.', 'success');
+  loadReservationsPage();
+}
+
+// ── ADD CIRCUIT ──────────────────────────────────────────────
+async function addCircuit() {
+  const code         = document.getElementById('cc-code').value.trim();
+  const libelle      = document.getElementById('cc-lib').value.trim();
+  const id_destination = parseInt(document.getElementById('cc-dest').value);
+  const duree        = parseInt(document.getElementById('cc-duree').value) || 0;
+  const prix_personne = parseFloat(document.getElementById('cc-prix').value) || 0;
+  const nb_places_max = parseInt(document.getElementById('cc-places').value) || 0;
+  const date_depart  = document.getElementById('cc-date').value;
+  const image_url    = document.getElementById('cc-img').value.trim();
+
+  if (!code || !libelle || !duree || !prix_personne || !nb_places_max)
+    return showAlert('al-circ', 'Remplissez tous les champs obligatoires.', 'danger');
+
+  const res = await POST('/circuits', { code, libelle, id_destination, duree, prix_personne, nb_places_max, date_depart, image_url });
+  if (!res.ok) return showAlert('al-circ', res.error, 'danger');
+  closeModal('modal-circuit');
+  toast('Circuit créé avec succès !');
+  loadCircuitsPage();
+}
+
+// ── ADD CLIENT ───────────────────────────────────────────────
+async function addClient() {
+  const nom       = document.getElementById('cl-nom').value.trim();
+  const prenom    = document.getElementById('cl-prenom').value.trim();
+  const email     = document.getElementById('cl-email').value.trim();
+  const nationalite = document.getElementById('cl-nat').value.trim();
+  const telephone = document.getElementById('cl-tel').value.trim();
+  if (!nom || !prenom || !email)
+    return showAlert('al-cli', 'Nom, prénom et email sont requis.', 'danger');
+
+  const res = await POST('/clients', { nom, prenom, nationalite, email, telephone });
+  if (!res.ok) return showAlert('al-cli', res.error, 'danger');
+  closeModal('modal-client');
+  toast('Client ajouté avec succès !');
+  loadClientsPage();
+  populateSelects();
+}
+
+// ── SEARCH ───────────────────────────────────────────────────
+function doSearch() {
+  showPage('circuits-page');
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+populateSelects();
+loadHome();
+</script>
+</body>
+</html>
