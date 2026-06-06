@@ -14,14 +14,10 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // ── Connexion MySQL ──────────────────────────────────────────
 const pool = mysql.createPool({
-  host     : process.env.DB_HOST,
-  user     : process.env.DB_USER,
-  password : process.env.DB_PASSWORD,
-  database : process.env.DB_NAME,
-  port     : process.env.DB_PORT || 3306,
+  uri: process.env.MYSQL_URL,
   waitForConnections: true,
-  connectionLimit   : 10,
-  ssl      : { rejectUnauthorized: false }
+  connectionLimit: 10,
+  ssl: { rejectUnauthorized: false }
 });
 
 // ── Helper ────────────────────────────────────────────────────
@@ -29,6 +25,16 @@ async function q(sql, params = []) {
   const [rows] = await pool.execute(sql, params);
   return rows;
 }
+
+// ── Route de test DB ─────────────────────────────────────────
+app.get('/api/test', async (req, res) => {
+  try {
+    const rows = await q('SELECT 1 AS ok');
+    res.json({ ok: true, db: 'connectée', rows });
+  } catch (e) {
+    res.status(500).json({ ok: false, error: e.message });
+  }
+});
 
 // ============================================================
 //  CIRCUITS
