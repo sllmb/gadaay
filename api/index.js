@@ -14,10 +14,14 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // ── Connexion MySQL ──────────────────────────────────────────
 const pool = mysql.createPool({
-  uri: process.env.MYSQL_URL,
+  host     : process.env.DB_HOST,
+  user     : process.env.DB_USER,
+  password : process.env.DB_PASSWORD,
+  database : process.env.DB_NAME,
+  port     : parseInt(process.env.DB_PORT) || 3306,
   waitForConnections: true,
-  connectionLimit: 10,
-  ssl: { rejectUnauthorized: false }
+  connectionLimit   : 10,
+  ssl      : { rejectUnauthorized: false }
 });
 
 // ── Helper ────────────────────────────────────────────────────
