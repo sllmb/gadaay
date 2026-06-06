@@ -32,7 +32,7 @@ nav.scrolled .nav-links span{color:var(--text);}
 
 /* ── HERO ── */
 .hero{height:100vh;min-height:600px;position:relative;overflow:visible;display:flex;align-items:center;}
-.hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1600&q=80') center/cover no-repeat;opacity:.55;}
+.hero-bg{position:absolute;inset:0;background:url('https://tse2.mm.bing.net/th/id/OIP.PNNGAKLmHJ4xWBAbwlXgewHaEg?rs=1&pid=ImgDetMain&o=7&rm=3') center/cover no-repeat;opacity:.55;}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,30,70,.78) 0%,rgba(10,30,70,.25) 100%);}
 .hero-content{position:relative;z-index:2;padding:0 60px;max-width:700px;}
 .hero-content h1{font-size:52px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:18px;animation:fadeUp .7s ease both;}
@@ -394,7 +394,7 @@ nav.scrolled .nav-toggle{color:var(--text);}
       </div>
       <button class="btn-adv" onclick="showPage('circuits-page')">Explorer →</button>
     </div>
-    <div class="about-img"><img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&q=80" alt="Adventure" loading="lazy"></div>
+    <div class="about-img"><img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=800&q=80" alt="Adventure" loading="lazy"></div>
   </div>
 </div>
 
@@ -706,6 +706,30 @@ document.querySelectorAll('.modal-overlay').forEach(o =>
   o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); })
 );
 
+// ── CIRCUIT IMAGES ──────────────────────────────────────────
+const CIRCUIT_IMAGES = {
+  'dakar':    'https://tse2.mm.bing.net/th/id/OIP.PNNGAKLmHJ4xWBAbwlXgewHaEg?rs=1&pid=ImgDetMain&o=7&rm=3',
+  'sénégal':  'https://tse2.mm.bing.net/th/id/OIP.PNNGAKLmHJ4xWBAbwlXgewHaEg?rs=1&pid=ImgDetMain&o=7&rm=3',
+  'mali':     'https://tse3.mm.bing.net/th/id/OIP.9mWP4f4krNb6sNRouWUeJwHaFj?rs=1&pid=ImgDetMain&o=7&rm=3',
+  'cap-vert': 'https://th.bing.com/th/id/R.5fb1a6432823d095803a02d4aa9bd60c?rik=iXFSRkN%2b5jIt1A&pid=ImgRaw&r=0',
+  'bénin':    'https://visitbeninrepublic.com/wp-content/uploads/2024/10/benin-Monument-Amazone-cotonou.webp',
+  'cotonou':  'https://visitbeninrepublic.com/wp-content/uploads/2024/10/benin-Monument-Amazone-cotonou.webp',
+  'ghana':    'https://th.bing.com/th/id/R.5420277b299f602c4ce037ae8bf7d807?rik=e2jwe%2fMazIkIqQ&pid=ImgRaw&r=0',
+  'accra':    'https://th.bing.com/th/id/R.5420277b299f602c4ce037ae8bf7d807?rik=e2jwe%2fMazIkIqQ&pid=ImgRaw&r=0',
+  'guinée':   'https://th.bing.com/th/id/R.0f7aec979ff2d54ea778fdc43806719b?rik=9pvLoEwj2hSZFA&pid=ImgRaw&r=0',
+  'lomé':     'https://voyageur-attitude.fr/wp-content/uploads/togo-lome.jpg',
+  'togo':     'https://voyageur-attitude.fr/wp-content/uploads/togo-lome.jpg',
+  'abidjan':  'https://facts.net/wp-content/uploads/2023/06/38-facts-about-abidjan-1688114839.jpg',
+  'côte':     'https://facts.net/wp-content/uploads/2023/06/38-facts-about-abidjan-1688114839.jpg',
+};
+function getCircuitImg(c) {
+  const key = ((c.libelle || '') + ' ' + (c.pays || '')).toLowerCase();
+  for (const [k, url] of Object.entries(CIRCUIT_IMAGES)) {
+    if (key.includes(k)) return url;
+  }
+  return c.image_url || 'https://tse2.mm.bing.net/th/id/OIP.PNNGAKLmHJ4xWBAbwlXgewHaEg?rs=1&pid=ImgDetMain&o=7&rm=3';
+}
+
 // ── HOME ────────────────────────────────────────────────────
 async function loadHome() {
   // Destinations (4 premiers circuits)
@@ -720,7 +744,7 @@ async function loadHome() {
   const tags = ['Solo Tour', 'Couple Tour', 'Family Tour', 'Groupe Tour'];
   document.getElementById('dest-grid').innerHTML = circuits.map((c, i) => `
     <div class="dcard">
-      <img src="${c.image_url || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=70'}" alt="${c.libelle}" loading="lazy">
+      <img src="${getCircuitImg(c)}" alt="${c.libelle}" loading="lazy">
       <div class="dcard-ov"></div>
       <div class="dcard-info">
         <span class="dcard-type">${tags[i] || 'Tour'}</span>
@@ -737,7 +761,7 @@ async function loadHome() {
   document.getElementById('reco-grid').innerHTML = reco.map((c, i) => `
     <div class="rcard">
       <div class="rcard-img">
-        <img src="${c.image_url || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=70'}" alt="${c.libelle}" loading="lazy">
+        <img src="${getCircuitImg(c)}" alt="${c.libelle}" loading="lazy">
         <span class="rcard-tag">${tags[i] || 'Tour'}</span>
       </div>
       <div class="rcard-body">
@@ -781,7 +805,7 @@ async function loadCircuitsPage() {
     const full = rest === 0 || c.statut === 'complet';
     return `<div class="cc">
       <div class="cc-img">
-        <img src="${c.image_url || 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=70'}" alt="${c.libelle}" loading="lazy">
+        <img src="${getCircuitImg(c)}" alt="${c.libelle}" loading="lazy">
         <span class="cc-badge${full ? ' full' : ''}">${full ? 'Complet' : rest + ' places'}</span>
       </div>
       <div class="cc-info">
